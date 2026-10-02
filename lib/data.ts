@@ -15,7 +15,7 @@ export const CLUB = {
   paymentWindow: 'the 1st and the 5th of each month',
   maxPlayersPerTeam: 18,
   trainingFrequency: 'Twice a week, with an optional 3rd session',
-  sessionLength: '90 minutes',
+  sessionLength: '90-minutes',
   matchDays: 'Weekends',
 } as const
 
