@@ -20,10 +20,31 @@ export default function SiteFooter() {
           </p>
           <p className="mt-4 text-sm text-zinc-400">
             Contact:{' '}
-            <span className="text-zinc-200">
-              info@spidersportsclub.com
-            </span>
-          </p>
+            <a
+              href="mailto:info@spidersportsclub.com"
+              className="text-zinc-200 underline-offset-4 hover:underline"
+            >
+              info@spidersportsclub.com
+            </a>
+          </p>
+          <div className="mt-4 flex items-center gap-4 text-sm">
+            <a
+              href="https://instagram.com/spidersportsclub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-400 transition-colors hover:text-white"
+            >
+              Instagram
+            </a>
+            <a
+              href="https://facebook.com/spidersportsclub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-400 transition-colors hover:text-white"
+            >
+              Facebook
+            </a>
+          </div>
         </div>
 
         <nav aria-label="Quick links">
