@@ -32,8 +32,10 @@ const TERMS = [
   },
 ] as const
 
-export default function RegisterPage() {
-  const [step, setStep] = useState(1)
+export default function RegisterPage() {  useEffect(() => {
+    document.title = 'Register | Spider Sports Club'
+  }, [])
+const [step, setStep] = useState(1)
   const [submitting, setSubmitting] = useState(false)
   const [demoMode, setDemoMode] = useState(false)
   const [error, setError] = useState<string | null>(null)
