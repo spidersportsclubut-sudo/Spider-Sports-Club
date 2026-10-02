@@ -42,7 +42,8 @@ All keys are placeholders until you connect your own accounts — see `.env.exam
 1. Code is written and reviewed here.
 2. Push to GitHub (Step 2 of the club workflow).
 3. Deploy on Vercel — it auto-deploys from the GitHub repo (Step 3).
-4. Point `spidersportsclub.com` at Vercel via Squarespace DNS records (Step 4).
+4. Production deployment triggered.
+5. Point `spidersportsclub.com` at Vercel via Squarespace DNS records (Step 4).
 
 ## Notes
 
