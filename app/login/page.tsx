@@ -1,12 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { CLUB } from '@/lib/data'
 
-export default function LoginPage() {
+export default function LoginPage() {  useEffect(() => {
+    document.title = 'Team Login | Spider Sports Club'
+  }, [])
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
