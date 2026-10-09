@@ -1,4 +1,4 @@
-```tsx
+tsx
 import type { AgentMeta, AgentRun } from './roster';
 
 const STATUS_DOT: Record<string, string> = {
@@ -30,4 +30,3 @@ export default function AgentCard({ agent, lastRun }: { agent: AgentMeta; lastRu
     </div>
   );
 }
-```
