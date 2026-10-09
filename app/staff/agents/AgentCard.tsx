@@ -1,48 +1,31 @@
-import type { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
-import { AGENTS, type AgentRun } from './roster';
-import AgentCard from './AgentCard';
-import RunsDropdown from './RunsDropdown';
+import type { AgentMeta, AgentRun } from './roster';
 
-export const dynamic = 'force-dynamic';
-
-export const metadata: Metadata = {
-  title: 'Agent Mission Control | Spider Sports Club',
+const STATUS_DOT: Record<string, string> = {
+  ok: 'bg-emerald-500',
+  partial: 'bg-amber-500',
+  failed: 'bg-red-500',
 };
 
-export default async function AgentsPage() {
-  let runs: AgentRun[] = [];
-  let notice: string | null = null;
-  try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from('agent_runs')
-      .select('id,agent_name,run_at,trigger,summary,output_ref,needs_human,status')
-      .order('run_at', { ascending: false })
-      .limit(120);
-    if (error) throw new Error(error.message);
-    runs = (data ?? []) as AgentRun[];
-  } catch {
-    notice = 'Run data unavailable — the agent_runs table may not exist yet or is not readable.';
-  }
-  const latest: Record<string, AgentRun> = {};
-  for (const r of runs) {
-    if (!latest[r.agent_name]) latest[r.agent_name] = r;
-  }
+export default function AgentCard({ agent, lastRun }: { agent: AgentMeta; lastRun: AgentRun | null }) {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-2xl font-black text-zinc-100">Agent Mission Control</h1>
-      <p className="mt-1 text-sm text-zinc-400">14 club agents · read-only · on-demand runs happen in chat</p>
-      {notice && (
-        <p className="mt-4 rounded-lg border border-amber-800 bg-amber-950/40 p-3 text-sm text-amber-200">{notice}</p>
-      )}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {AGENTS.map((a) => (
-          <AgentCard key={a.id} agent={a} lastRun={latest[a.id] ?? null} />
-        ))}
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-4">
+      <div className="flex items-center justify-between">
+        <h3 className="font-bold text-zinc-100">{agent.name}</h3>
+        <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-300">{agent.squad}</span>
       </div>
-      <h2 className="mt-10 text-lg font-bold text-zinc-100">Recent runs</h2>
-      <RunsDropdown agents={AGENTS} runs={runs} />
-    </main>
+      <p className="mt-1 text-sm text-zinc-400">{agent.role}</p>
+      <p className="mt-2 text-xs text-zinc-500">Schedule: {agent.schedule}</p>
+      <div className="mt-3 flex items-center gap-2 text-xs">
+        <span className={`h-2 w-2 rounded-full ${lastRun ? STATUS_DOT[lastRun.status] ?? 'bg-zinc-500' : 'bg-zinc-600'}`} />
+        {lastRun ? (
+          <span className="text-zinc-400">
+            Last run {new Date(lastRun.run_at).toLocaleString()} · {lastRun.status}
+            {lastRun.needs_human && <span className="ml-1 font-semibold text-amber-300">· needs human</span>}
+          </span>
+        ) : (
+          <span className="text-zinc-500">No runs logged yet</span>
+        )}
+      </div>
+    </div>
   );
 }
