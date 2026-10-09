@@ -1,48 +1,38 @@
-import type { Metadata } from 'next';
-import { createClient } from '@/lib/supabase/server';
-import { AGENTS, type AgentRun } from './roster';
-import AgentCard from './AgentCard';
-import RunsDropdown from './RunsDropdown';
+// Static roster for the /staff/agents mission-control page.
+// `id` must match the agent_name written to the agent_runs table.
 
-export const dynamic = 'force-dynamic';
-
-export const metadata: Metadata = {
-  title: 'Agent Mission Control | Spider Sports Club',
+export type AgentRun = {
+  id: string;
+  agent_name: string;
+  run_at: string;
+  trigger: string;
+  summary: string;
+  output_ref: string | null;
+  needs_human: boolean;
+  status: string;
 };
 
-export default async function AgentsPage() {
-  let runs: AgentRun[] = [];
-  let notice: string | null = null;
-  try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from('agent_runs')
-      .select('id,agent_name,run_at,trigger,summary,output_ref,needs_human,status')
-      .order('run_at', { ascending: false })
-      .limit(120);
-    if (error) throw new Error(error.message);
-    runs = (data ?? []) as AgentRun[];
-  } catch {
-    notice = 'Run data unavailable — the agent_runs table may not exist yet or is not readable.';
-  }
-  const latest: Record<string, AgentRun> = {};
-  for (const r of runs) {
-    if (!latest[r.agent_name]) latest[r.agent_name] = r;
-  }
-  return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-2xl font-black text-zinc-100">Agent Mission Control</h1>
-      <p className="mt-1 text-sm text-zinc-400">14 club agents · read-only · on-demand runs happen in chat</p>
-      {notice && (
-        <p className="mt-4 rounded-lg border border-amber-800 bg-amber-950/40 p-3 text-sm text-amber-200">{notice}</p>
-      )}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {AGENTS.map((a) => (
-          <AgentCard key={a.id} agent={a} lastRun={latest[a.id] ?? null} />
-        ))}
-      </div>
-      <h2 className="mt-10 text-lg font-bold text-zinc-100">Recent runs</h2>
-      <RunsDropdown agents={AGENTS} runs={runs} />
-    </main>
-  );
-}
+export type AgentMeta = {
+  id: string;
+  name: string;
+  squad: 'Growth' | 'Money' | 'Operations' | 'Governance';
+  role: string;
+  schedule: string;
+};
+
+export const AGENTS: AgentMeta[] = [
+  { id: 'ssc-recruiter', name: 'Recruiter', squad: 'Growth', role: 'Answers parent questions, matches families to divisions, invites trial sessions.', schedule: 'On-demand' },
+  { id: 'ssc-registration-closer', name: 'Registration Closer', squad: 'Growth', role: 'Nudges parents who started registration but did not finish.', schedule: 'On-demand' },
+  { id: 'ssc-sponsor-hunter', name: 'Sponsor Hunter', squad: 'Growth', role: 'Finds local sponsors and drafts outreach emails.', schedule: 'Biweekly Mon 10:00 AM' },
+  { id: 'ssc-hype-squad', name: 'Hype Squad', squad: 'Growth', role: 'Drafts Instagram/Facebook content: recaps, training moments.', schedule: 'Weekly Mon 9:00 AM' },
+  { id: 'ssc-fee-collector', name: 'Fee Collector', squad: 'Money', role: 'Monthly dues reminders; flags late and overdue accounts.', schedule: '1st + 6th monthly, 8:00 AM' },
+  { id: 'ssc-front-desk', name: 'Front Desk', squad: 'Operations', role: 'Answers parent questions on programs, fees, tryouts, cities.', schedule: 'On-demand' },
+  { id: 'ssc-schedule-keeper', name: 'Schedule Keeper', squad: 'Operations', role: 'Training/game reminders; field or time changes.', schedule: 'Weekly Sun 6:00 PM' },
+  { id: 'ssc-rsvp-chaser', name: 'RSVP Chaser', squad: 'Operations', role: 'Chases unanswered availability RSVPs for headcounts.', schedule: '2x weekly' },
+  { id: 'ssc-tryout-tracker', name: 'Tryout Tracker', squad: 'Operations', role: 'Logs 15-point evaluation scores; tracks evaluation windows.', schedule: 'On-demand' },
+  { id: 'ssc-club-journalist', name: 'Club Journalist', squad: 'Operations', role: 'Keeps city pages and club news fresh.', schedule: 'On-demand' },
+  { id: 'ssc-inbox-guard', name: 'Inbox Guard', squad: 'Operations', role: 'Triages the club inbox; flags urgent, drafts replies.', schedule: 'Daily 8:30 AM' },
+  { id: 'ssc-arbitration-director', name: 'Arbitration Director', squad: 'Governance', role: 'Fair dispute resolution for parents and players.', schedule: 'On-demand' },
+  { id: 'ssc-oversight', name: 'Oversight', squad: 'Governance', role: 'Audits other agents\u2019 outputs before they reach parents.', schedule: 'On-demand' },
+  { id: 'ssc-founders-briefing', name: "Founder's Briefing", squad: 'Governance', role: 'Daily digest to Tsatsu: money, registrations, issues.', schedule: 'Daily 7:00 AM' },
+];
