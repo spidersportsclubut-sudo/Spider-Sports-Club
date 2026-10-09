@@ -26,4 +26,6 @@ export default function AgentCard({ agent, lastRun }: { agent: AgentMeta; lastRu
           <span className="text-zinc-500">No runs logged yet</span>
         )}
       </div>
+    </div>
   );
+}
