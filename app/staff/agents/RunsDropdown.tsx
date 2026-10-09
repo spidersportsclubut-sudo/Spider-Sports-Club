@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import type { AgentMeta, AgentRun } from './roster';
 
