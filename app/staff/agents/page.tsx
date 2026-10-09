@@ -1,4 +1,3 @@
-tsx
 import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { AGENTS, type AgentRun } from './roster';
