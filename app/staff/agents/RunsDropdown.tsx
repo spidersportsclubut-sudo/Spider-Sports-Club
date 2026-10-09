@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import type { AgentMeta, AgentRun } from './roster';
 
 export default function RunsDropdown({ agents, runs }: { agents: AgentMeta[]; runs: AgentRun[] }) {
