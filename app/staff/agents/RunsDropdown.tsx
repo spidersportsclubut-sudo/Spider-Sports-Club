@@ -1,4 +1,4 @@
-```tsx
+tsx
 'use client';
 
 import { useState } from 'react';
@@ -36,4 +36,3 @@ export default function RunsDropdown({ agents, runs }: { agents: AgentMeta[]; ru
     </div>
   );
 }
-```
