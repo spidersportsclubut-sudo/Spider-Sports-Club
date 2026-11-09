@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import {
   CITIES,
@@ -105,6 +106,38 @@ export default async function Home() {
             >
               Register Now
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* What we are */}
+      <section className="border-b border-zinc-800 bg-zinc-900/40">
+        <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 sm:py-20">
+          <p className="text-sm font-semibold uppercase tracking-widest text-red-500">
+            What Spider Sports Club Is
+          </p>
+          <h2 className="mx-auto mt-2 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Character first. Built for the whole player.
+          </h2>
+          <div className="mx-auto mt-10 w-full max-w-[720px]">
+            <Image
+              src="/images/what-we-are.png"
+              width={1080}
+              height={1350}
+              alt="What Spider Sports Club is: one pillar a week over the four-week month — Week 1 Technical, Week 2 Tactical, Week 3 Physical, Week 4 Psychological — with two training sessions a week, weekend matches, U12, U14 and U16 girls and boys divisions, 18 players max per team, and one dedicated coach per team."
+              className="h-auto w-full rounded-2xl border border-zinc-800"
+              priority
+            />
+          </div>
+          <div className="mt-10">
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdzQQeBXevm9ukDgIZDl2qOdfAwsQeE0-PQwd4BibNL4bgvyg/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded-md bg-red-600 px-8 py-3.5 text-base font-semibold text-white transition-colors hover:bg-red-700"
+            >
+              Register your interest
+            </a>
           </div>
         </div>
       </section>
